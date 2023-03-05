@@ -62,8 +62,9 @@ class Lookup:
     timestamp: int  # 1566038540110
 
     @property
-    def lookup_datetime(self):
-        return datetime.fromtimestamp(self.timestamp)
+    def lookup_datetime(self) -> datetime:
+        """Returns the UTC datetime from the db timestamp. We divide by 1000 to convert ms to seconds."""
+        return datetime.utcfromtimestamp(self.timestamp / 1000)
 
 
 @dataclass
@@ -74,11 +75,11 @@ class Book:
 
 
 class KindleConnection:
-    def __init__(self):
+    def __init__(self) -> None:
         self.connection = sqlite3.connect("/Users/danny/Desktop/vocab.db")
         self.connection.row_factory = self._lookup_factory
 
-    def _lookup_factory(self, cursor, row):
+    def _lookup_factory(self, cursor: sqlite3.Cursor, row: sqlite3.Row) -> Lookup:
         fields = [column[0] for column in cursor.description]
         names_to_values = {key: value for key, value in zip(fields, row)}
 
@@ -106,9 +107,7 @@ class KindleConnection:
             book=book,
         )
 
-    def get_lookups(
-        self, learning_state: Optional[LearningState] = None
-    ) -> list[Lookup]:
+    def get_lookups(self, learning_state: Optional[LearningState] = None) -> list[Lookup]:
         cursor = self.connection.cursor()
 
         sql = """
@@ -144,9 +143,3 @@ class KindleConnection:
 
 kindle_connection = KindleConnection()
 lookups = kindle_connection.get_lookups()
-from pprint import pprint
-
-pprint(lookups)
-# print(words[0])
-breakpoint()
-# print(words[0])
