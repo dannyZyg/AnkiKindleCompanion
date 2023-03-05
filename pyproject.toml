@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "kindleankicompanion"
+name = "AnkiKindleCompanion"
 version = "0.1.0"
 description = ""
 authors = ["Danny Keig <39764493+dannyZyg@users.noreply.github.com>"]
