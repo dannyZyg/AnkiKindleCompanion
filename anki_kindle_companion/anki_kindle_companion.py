@@ -1,4 +1,5 @@
 from __future__ import annotations
+from datetime import datetime
 import sqlite3
 from dataclasses import dataclass
 from enum import Enum
@@ -60,6 +61,10 @@ class Lookup:
     usage: str  # The actual highlighted sentence!
     timestamp: int  # 1566038540110
 
+    @property
+    def lookup_datetime(self):
+        return datetime.fromtimestamp(self.timestamp)
+
 
 @dataclass
 class Book:
@@ -101,7 +106,6 @@ class KindleConnection:
             book=book,
         )
 
-    # def _map_rows_to_objects(self, rows):
     def get_lookups(
         self, learning_state: Optional[LearningState] = None
     ) -> list[Lookup]:
