@@ -38,3 +38,17 @@ class KindleLookupModel(QAbstractTableModel):
         if orientation == Qt.Orientation.Horizontal and role == Qt.ItemDataRole.DisplayRole:
             return self._headers[col]
         return None
+
+    def uniqueBooks(self):
+        values = set()
+        for lookup in self._data:
+            if lookup.book not in values:
+                values.add(lookup.book)
+        return list(values)
+
+    def uniqueSentences(self):
+        values = set()
+        for lookup in self._data:
+            if lookup.sentence not in values:
+                values.add(lookup.sentence)
+        return list(values)
