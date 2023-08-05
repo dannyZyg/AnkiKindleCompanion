@@ -1,4 +1,5 @@
-from aqt.qt import QAbstractTableModel, QVariant, Qt, QModelIndex
+from aqt.qt import QAbstractTableModel, QModelIndex, Qt, QVariant
+
 from ..enums import TABLE_COLUMNS_TO_ATTRIBUTES, Column
 
 
@@ -44,6 +45,13 @@ class KindleLookupModel(QAbstractTableModel):
         for lookup in self._data:
             if lookup.book not in values:
                 values.add(lookup.book)
+        return list(values)
+
+    def uniqueLangs(self):
+        values = set()
+        for lookup in self._data:
+            if lookup.language not in values:
+                values.add(lookup.language)
         return list(values)
 
     def uniqueSentences(self):
